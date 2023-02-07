@@ -4,7 +4,7 @@ import {
     RegionObj,
     OverallLocationObj,
 } from "../models/ApiInterfaces";
-import { getUserLocation, getWeather } from "../api/locationweather";
+import { getUserLocation, getWeather } from "../api/Locationweather";
 
 const CitiesList = () => {
 
