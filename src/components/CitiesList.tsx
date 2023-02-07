@@ -38,6 +38,7 @@ const CitiesList = () => {
             setRegionObjectList,
             setCityObjectList,
         });
+        console.log(countryObjectList, regionObjectList, cityObjectList)
     }, []);
 
     const handleCityForm = (e: React.FormEvent): void => {
