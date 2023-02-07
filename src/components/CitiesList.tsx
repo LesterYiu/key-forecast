@@ -3,7 +3,7 @@ import {
     CountryObj,
     RegionObj,
     OverallLocationObj,
-} from "../models/apiInterfaces";
+} from "../models/ApiInterfaces";
 import { getUserLocation, getWeather } from "../api/locationweather";
 
 const CitiesList = () => {

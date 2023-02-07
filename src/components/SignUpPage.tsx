@@ -3,7 +3,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { SignUpProps } from '../models/propInterface';
 import { auth, provider } from '../config/firebase';
 import { createUserWithEmailAndPassword, getAuth, signInWithPopup, updateProfile } from '@firebase/auth';
-import { AuthObject, AuthReturnObject } from '../models/apiInterfaces';
+import { AuthObject, AuthReturnObject } from '../models/ApiInterfaces';
 
 const SignUpPage = ({ userUID, setUserUID, setIsAuth, isAuth }: SignUpProps) => {
     const [name, setName] = useState<string>("");

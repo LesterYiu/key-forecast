@@ -1,6 +1,6 @@
 import {weatherAPIKey, locationAPIKey, geocodingAPIKey} from "../config/apikeys";
 import axios from "axios";
-import {DropdownAndFormStates} from "../models/apiInterfaces";
+import {DropdownAndFormStates} from "../models/ApiInterfaces";
 
 export const getUserLocation = (setStateObj: DropdownAndFormStates) => {
     const {
