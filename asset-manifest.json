@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/key-forecast-test/static/css/main.3e867dfc.css",
+    "main.js": "/key-forecast-test/static/js/main.2e22e9fc.js",
+    "index.html": "/key-forecast-test/index.html",
+    "main.3e867dfc.css.map": "/key-forecast-test/static/css/main.3e867dfc.css.map",
+    "main.2e22e9fc.js.map": "/key-forecast-test/static/js/main.2e22e9fc.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3e867dfc.css",
+    "static/js/main.2e22e9fc.js"
+  ]
+}
