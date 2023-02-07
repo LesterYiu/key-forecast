@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Navigate, useNavigate } from 'react-router-dom';
-import { SignUpProps } from '../models/propInterface';
+import { SignUpProps } from '../models/PropInterface';
 import { auth, provider } from '../config/firebase';
 import { createUserWithEmailAndPassword, getAuth, signInWithPopup, updateProfile } from '@firebase/auth';
 import { AuthObject, AuthReturnObject } from '../models/ApiInterfaces';
