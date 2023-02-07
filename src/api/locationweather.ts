@@ -1,16 +1,18 @@
 import {weatherAPIKey, locationAPIKey, geocodingAPIKey} from "../config/apikeys";
 import axios from "axios";
-import { OverallLocationObj, CountryObj, RegionObj} from "../models/interfaces";
+import {DropdownAndFormStates} from "../models/apiInterfaces";
 
-export const getUserLocation = (
-    setCountryFunc: React.Dispatch<React.SetStateAction<string>>,
-    setRegionFunc: React.Dispatch<React.SetStateAction<string>>,
-    setCityFunc: React.Dispatch<React.SetStateAction<string>>,
-    setLocationObjFunc: React.Dispatch<React.SetStateAction<OverallLocationObj>>,
-    setCountryObjectListFunc: React.Dispatch<React.SetStateAction<CountryObj[]>>,
-    setRegionObjectListFunc: React.Dispatch<React.SetStateAction<RegionObj[]>>,
-    setCityObjectListFunc: React.Dispatch<React.SetStateAction<OverallLocationObj[]>>
-) => {
+export const getUserLocation = (setStateObj: DropdownAndFormStates) => {
+    const {
+        setCountry,
+        setRegion,
+        setCity,
+        setLocationObj,
+        setCountryObjectList,
+        setRegionObjectList,
+        setCityObjectList,
+    } = setStateObj;
+
     navigator.geolocation.getCurrentPosition(
         async function (position) {
             const response = await axios.get(
@@ -18,10 +20,10 @@ export const getUserLocation = (
             );
             const { country, state, city, country_code, lat, lon } =
                 response.data.results[0];
-            setCountryFunc(country);
-            setRegionFunc(state);
-            setCityFunc(city);
-            setLocationObjFunc({
+            setCountry(country);
+            setRegion(state);
+            setCity(city);
+            setLocationObj({
                 city,
                 country: country_code,
                 region: state,
@@ -30,7 +32,15 @@ export const getUserLocation = (
             });
         },
         function () {
-            populateDropdown(setCountryObjectListFunc, setCountryFunc, setRegionObjectListFunc, setRegionFunc, setCityObjectListFunc, setLocationObjFunc, setCityFunc)
+            populateDropdown(
+                {setCountryObjectList,
+                setCountry,
+                setRegionObjectList,
+                setRegion,
+                setCityObjectList,
+                setLocationObj,
+                setCity}
+            );
         }
     );
 };
@@ -42,35 +52,38 @@ export const getWeather = async (latitude: string, longitude: string) => {
     console.log(response.data);
 };
 
-const populateDropdown = async (
-    setCountryObjectListFunc: React.Dispatch<React.SetStateAction<CountryObj[]>>,
-    setCountryFunc: React.Dispatch<React.SetStateAction<string>>,
-    setRegionObjectListFunc: React.Dispatch<React.SetStateAction<RegionObj[]>>,
-    setRegionFunc: React.Dispatch<React.SetStateAction<string>>,
-    setCityObjectListFunc: React.Dispatch<React.SetStateAction<OverallLocationObj[]>>,
-    setLocationObjFunc: React.Dispatch<React.SetStateAction<OverallLocationObj>>,
-    setCityFunc: React.Dispatch<React.SetStateAction<string>>
-) => {
+const populateDropdown = async (setStateObj: DropdownAndFormStates) => {
+
+    const {
+        setCountry,
+        setRegion,
+        setCity,
+        setLocationObj,
+        setCountryObjectList,
+        setRegionObjectList,
+        setCityObjectList,
+    } = setStateObj;
+
     // Handles Country List Dropdown
     const countryListResponse = await axios.get(
         `https://radiant-peak-12085.herokuapp.com/http://battuta.medunes.net/api/country/all/?key=${locationAPIKey}`
     );
-    setCountryObjectListFunc(countryListResponse.data);
-    setCountryFunc(countryListResponse.data[0].name);
+    setCountryObjectList(countryListResponse.data);
+    setCountry(countryListResponse.data[0].name);
 
     // Handles Region List Dropdown
     const regionListResponse = await axios.get(
         `https://radiant-peak-12085.herokuapp.com/http://battuta.medunes.net/api/region/${countryListResponse.data[0].code}/all/?key=${locationAPIKey}`
     );
-    setRegionObjectListFunc(regionListResponse.data);
+    setRegionObjectList(regionListResponse.data);
     const { region, country } = regionListResponse.data[0];
-    setRegionFunc(region);
+    setRegion(region);
 
     // Handles City List Dropdown
     const cityListResponse = await axios.get(
         `https://radiant-peak-12085.herokuapp.com/http://battuta.medunes.net/api/city/${country}/search/?region=${region}&key=${locationAPIKey}`
     );
-    setCityObjectListFunc(cityListResponse.data);
-    setLocationObjFunc(cityListResponse.data[0]);
-    setCityFunc(cityListResponse.data[0].city);
+    setCityObjectList(cityListResponse.data);
+    setLocationObj(cityListResponse.data[0]);
+    setCity(cityListResponse.data[0].city);
 };

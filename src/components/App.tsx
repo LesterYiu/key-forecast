@@ -1,71 +1,35 @@
-import React, {useState, useEffect} from 'react';
-import { CountryObj, RegionObj, OverallLocationObj } from '../models/interfaces';
-import { getUserLocation, getWeather} from '../api/locationweather';
+import React, { useState } from 'react';
+import { Route, Routes } from "react-router-dom";
+
+// Component Imports
+import FrontPage from './FrontPage';
+import Home from './Home';
+import LoginPage from './LoginPage';
+import SignUpPage from './SignUpPage';
 
 function App() {
 
-  const [countryObjectList, setCountryObjectList] = useState<CountryObj[]>([]);
-  const [regionObjectList, setRegionObjectList] = useState<RegionObj[]>([]);
-  const [cityObjectList, setCityObjectList] = useState<OverallLocationObj[]>([]);
+    const [userUID, setUserUID] = useState<string>("");
+    const [isAuth, setIsAuth] = useState<boolean>(false)
 
-  const [country, setCountry] = useState<string>("");
-  const [region, setRegion] = useState<string>("");
-  const [city, setCity] = useState<string>("")
-
-  const [locationObj, setLocationObj] = useState<OverallLocationObj>({
-      city: "",
-      country: "",
-      region: "",
-      latitude: "",
-      longitude: "",
-  });
-
-  useEffect(() => {
-    getUserLocation(
-        setCountry,
-        setRegion,
-        setCity,
-        setLocationObj,
-        setCountryObjectList,
-        setRegionObjectList,
-        setCityObjectList
+    return (
+        <Routes>
+            <Route path="/" element={<FrontPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route
+                path="/signup"
+                element={
+                    <SignUpPage
+                        userUID={userUID}
+                        setUserUID={setUserUID}
+                        setIsAuth={setIsAuth}
+                        isAuth={isAuth}
+                    />
+                }
+            />
+            <Route path="/home" element={<Home />}/>
+        </Routes>
     );
-  }, []);
-
-
-  const handleCityForm = (e: React.FormEvent) : void => {
-    e.preventDefault();
-    getWeather(locationObj.latitude, locationObj.longitude)
-  }
-
-  return (
-      <div className="App">
-          <form name="cityForm" onSubmit={(e) => handleCityForm(e)}>
-              <label htmlFor="countryName">Enter Country Name</label>
-              <input
-                  type="text"
-                  id="countryName"
-                  defaultValue={country}
-              />
-
-              <label htmlFor="regionName">Enter Region Name</label>
-              <input
-                  type="text"
-                  id="regionName"
-                  defaultValue={region}
-              />
-
-              <label htmlFor="cityName">Enter City Name</label>
-              <input
-                  type="text"
-                  id="cityName"
-                  defaultValue={city}
-              />
-
-              <button type="submit">Submit</button>
-          </form>
-      </div>
-  );
 }
 
 export default App;
